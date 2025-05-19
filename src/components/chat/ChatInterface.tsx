@@ -51,8 +51,8 @@ const ChatInterface = () => {
               <h3 className="font-medium text-lg mb-2">Start a conversation</h3>
               <p>
                 {currentContext.type === "myProfile" 
-                  ? "Ask your Profile about your information" 
-                  : `Ask ${currentContext.grantorName}'s Profile a question`}
+                  ? "Ask your Assistant about your information" 
+                  : `Ask ${currentContext.grantorName}'s Assistant a question`}
               </p>
             </div>
           </div>

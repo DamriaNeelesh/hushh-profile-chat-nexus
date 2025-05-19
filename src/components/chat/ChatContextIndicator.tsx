@@ -6,13 +6,13 @@ const ChatContextIndicator = () => {
   const { state } = useChat();
   const { currentContext } = state;
 
-  let title = "My Profile";
-  let description = "You are chatting with your own Profile";
+  let title = "My Assistant";
+  let description = "You are chatting with your own Assistant";
   let icon = <MessageSquare className="h-5 w-5 text-hushh-600" />;
 
   if (currentContext.type === "delegated" && currentContext.grantorName) {
-    title = `${currentContext.grantorName}'s Profile`;
-    description = `You have been granted access to chat with ${currentContext.grantorName}'s Profile`;
+    title = `${currentContext.grantorName}'s Assistant`;
+    description = `You have been granted access to chat with ${currentContext.grantorName}'s Assistant`;
     icon = <UserIcon className="h-5 w-5 text-hushh-600" />;
   }
 

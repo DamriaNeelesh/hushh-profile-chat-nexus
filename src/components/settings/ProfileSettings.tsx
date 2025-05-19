@@ -53,14 +53,14 @@ const ProfileSettings = () => {
       <div>
         <h1 className="text-2xl font-bold mb-2">Settings</h1>
         <p className="text-muted-foreground">
-          Manage your profile settings and connected sources
+          Manage your Assistant settings and connected sources
         </p>
       </div>
 
       {/* Profile Information */}
       <Card>
         <CardHeader>
-          <CardTitle>Profile Information</CardTitle>
+          <CardTitle>Assistant Information</CardTitle>
           <CardDescription>
             Your basic account details
           </CardDescription>
@@ -84,7 +84,7 @@ const ProfileSettings = () => {
         <CardHeader>
           <CardTitle>Connected Sources</CardTitle>
           <CardDescription>
-            Manage the data sources connected to your Profile
+            Manage the data sources connected to your Assistant
           </CardDescription>
         </CardHeader>
         <CardContent>

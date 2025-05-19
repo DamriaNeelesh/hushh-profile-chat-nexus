@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { 
@@ -28,7 +27,7 @@ const Sidebar = () => {
 
   const sidebarItems = [
     {
-      title: "My Profile Chat",
+      title: "My Assistant Chat",
       icon: <MessageSquare size={20} />,
       path: "/",
     },
