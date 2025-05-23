@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -55,7 +54,8 @@ const durationOptions = [
 ];
 
 const GrantAccessForm = () => {
-  const { grantPermission, state } = usePermissions();
+  const permissions = usePermissions();
+  const { grantPermission, state } = permissions || { grantPermission: async () => {}, state: { isLoading: false } };
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<GrantFormValues>({
@@ -83,11 +83,13 @@ const GrantAccessForm = () => {
     }
     
     try {
-      await grantPermission({
-        recipientEmail: data.recipientEmail,
-        scope: data.scope,
-        expiresAt: expiresAt,
-      });
+      if (grantPermission) {
+        await grantPermission({
+          recipientEmail: data.recipientEmail,
+          scope: data.scope,
+          expiresAt: expiresAt,
+        });
+      }
       
       // Reset form after successful submission
       form.reset({

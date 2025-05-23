@@ -1,4 +1,3 @@
-
 import { useChat } from "@/contexts/ChatContext";
 import { MessageSquare, UserIcon } from "lucide-react";
 
@@ -17,7 +16,7 @@ const ChatContextIndicator = () => {
   }
 
   return (
-    <div className="bg-white border-b px-6 py-3 flex items-center">
+    <div className="bg-white border-b px-6 py-3 flex items-center sticky top-0 z-10 w-full">
       <div className="h-10 w-10 rounded-full bg-hushh-50 border border-hushh-200 flex items-center justify-center mr-3">
         {icon}
       </div>
