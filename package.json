@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -61,6 +61,7 @@
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^9.0.1",
     "vaul": "^0.9.3",
+    "vite": "^6.3.5",
     "zod": "^3.23.8"
   },
   "devDependencies": {
