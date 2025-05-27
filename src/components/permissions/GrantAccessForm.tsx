@@ -88,7 +88,7 @@ const GrantAccessForm = () => {
         scope: data.scope,
         expiresAt: expiresAt,
       });
-      
+
       // Reset form after successful submission
       form.reset({
         recipientEmail: "",
