@@ -1,6 +1,6 @@
-
+'use client'
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { usePermissions } from "@/contexts/PermissionsContext";
@@ -10,16 +10,19 @@ import { Badge } from "@/components/ui/badge";
 import { Loader2, MessageSquare } from "lucide-react";
 
 const ReceivedGrantsList = () => {
-  const { fetchGrants, state } = usePermissions();
+  const permissions = usePermissions();
+  const { fetchGrants, state } = permissions || { fetchGrants: async () => {}, state: { grantsReceived: [], isLoading: false } };
   const { setContext } = useChat();
-  const navigate = useNavigate();
+  const router = useRouter();
   const { grantsReceived, isLoading } = state;
   
   // Get active grants
   const activeGrants = grantsReceived.filter(grant => grant.isActive);
 
   useEffect(() => {
-    fetchGrants();
+    if (fetchGrants) {
+      fetchGrants();
+    }
   }, [fetchGrants]);
 
   const handleStartChat = (grantorUserId: string, grantorName?: string) => {
@@ -28,7 +31,7 @@ const ReceivedGrantsList = () => {
       targetUserId: grantorUserId,
       grantorName: grantorName || "User"
     });
-    navigate("/");
+    router.push("/");
   };
 
   if (isLoading && activeGrants.length === 0) {

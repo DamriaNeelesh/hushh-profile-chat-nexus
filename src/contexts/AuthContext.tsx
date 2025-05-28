@@ -1,4 +1,4 @@
-
+'use client'
 import React, { createContext, useContext, useReducer, useEffect } from "react";
 import { AuthState, LoginCredentials, SignupCredentials, User } from "../types/auth";
 import { useToast } from "@/hooks/use-toast";
@@ -23,8 +23,8 @@ interface AuthContextType {
 
 const initialState: AuthState = {
   user: null,
-  token: localStorage.getItem("token"),
-  isAuthenticated: Boolean(localStorage.getItem("token")),
+  token: null,
+  isAuthenticated: false,
   isLoading: false,
   error: null,
 };
@@ -62,27 +62,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [state, dispatch] = useReducer(authReducer, initialState);
   const { toast } = useToast();
 
+  // Initialize state from localStorage once on the client side
   useEffect(() => {
-    // Check if token is valid on initial load
-    const checkAuth = async () => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        try {
-          // For the MVP, we're just simulating a valid JWT with mock data
-          // In production, we'd verify the token with the backend
-          const mockUser: User = {
-            id: "user-123",
-            email: "user@example.com",
-            name: "Demo User"
-          };
-          dispatch({ type: "LOGIN_SUCCESS", payload: { user: mockUser, token } });
-        } catch (error) {
+    // Initialize with localStorage values on client-side only
+    const token = typeof window !== 'undefined' ? localStorage.getItem("token") : null;
+    
+    if (token) {
+      try {
+        // For the MVP, we're just simulating a valid JWT with mock data
+        // In production, we'd verify the token with the backend
+        const mockUser: User = {
+          id: "user-123",
+          email: "user@example.com",
+          name: "Demo User"
+        };
+        dispatch({ type: "LOGIN_SUCCESS", payload: { user: mockUser, token } });
+      } catch (error) {
+        if (typeof window !== 'undefined') {
           localStorage.removeItem("token");
-          dispatch({ type: "LOGOUT" });
         }
+        dispatch({ type: "LOGOUT" });
       }
-    };
-    checkAuth();
+    }
   }, []);
 
   const login = async (credentials: LoginCredentials) => {
@@ -98,7 +99,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         token: "mockJWTtoken123456789",
       };
       
-      localStorage.setItem("token", mockResponse.token);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem("token", mockResponse.token);
+      }
       dispatch({ type: "LOGIN_SUCCESS", payload: mockResponse });
       toast({
         title: "Login successful",
@@ -126,7 +129,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         token: "mockJWTtoken" + Math.floor(Math.random() * 1000000),
       };
       
-      localStorage.setItem("token", mockResponse.token);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem("token", mockResponse.token);
+      }
       dispatch({ type: "SIGNUP_SUCCESS", payload: mockResponse });
       toast({
         title: "Signup successful",
@@ -143,7 +148,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem("token");
+    }
     dispatch({ type: "LOGOUT" });
     toast({
       title: "Logged out",

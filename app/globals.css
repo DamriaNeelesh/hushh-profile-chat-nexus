@@ -1,0 +1,125 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+
+    /* Hushh Palette (example, adjust as needed) */
+    --hushh-50: 207 100% 97%; /* Example: Light Blue */
+    --hushh-100: 208 95% 93%;
+    --hushh-200: 209 96% 86%;
+    --hushh-300: 210 95% 76%;
+    --hushh-400: 211 92% 65%;
+    --hushh-500: 212 89% 53%; /* Example: Mid Blue */
+    --hushh-600: 213 81% 45%;
+    --hushh-700: 214 74% 38%; /* Example: Dark Blue */
+    --hushh-800: 215 68% 32%;
+    --hushh-900: 216 60% 27%;
+    --hushh-950: 217 50% 17%;
+
+    /* Sidebar specific colors */
+    --sidebar-background: 0 0% 100%; /* Example: white */
+    --sidebar-foreground: 222.2 84% 4.9%; /* Example: dark text */
+    --sidebar-border: 214.3 31.8% 91.4%; /* Example: light gray border */
+    --sidebar-primary: 222.2 47.4% 11.2%; /* Example: primary color for active items */
+    --sidebar-primary-foreground: 210 40% 98%; /* Text color for active items */
+    --sidebar-accent: 210 40% 96.1%; /* Hover or accent color */
+    --sidebar-accent-foreground: 222.2 47.4% 11.2%; /* Text for hover/accent */
+    --sidebar-ring: 222.2 84% 4.9%; /* Focus ring */
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 215 20.2% 65.1%;
+
+    /* Dark Hushh Palette (example, adjust as needed) */
+    /* ... define dark theme hushh colors ... */
+
+    /* Dark Sidebar specific colors */
+    --sidebar-background: 222.2 84% 4.9%; /* Example: dark background */
+    --sidebar-foreground: 210 40% 98%; /* Example: light text */
+    --sidebar-border: 217.2 32.6% 17.5%; /* Example: darker border */
+     /* ... other dark sidebar colors ... */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Chat bubble styles (from your existing CSS or new) */
+.chat-bubble {
+  @apply p-3 rounded-lg max-w-xs md:max-w-md lg:max-w-lg break-words;
+}
+
+.chat-bubble-user {
+  @apply bg-primary text-primary-foreground ml-auto;
+}
+
+.chat-bubble-assistant {
+  @apply bg-muted text-muted-foreground mr-auto;
+}
+
+.chat-bubble-delegated {
+  @apply bg-accent text-accent-foreground mr-auto; /* Example style for delegated */
+} 

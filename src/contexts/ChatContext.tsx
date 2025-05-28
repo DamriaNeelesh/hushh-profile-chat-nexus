@@ -1,4 +1,4 @@
-
+'use client'
 import React, { createContext, useContext, useReducer } from "react";
 import { ChatContext, ChatMessage, ChatRequest, ChatResponse, ChatState } from "../types/chat";
 import { useToast } from "@/hooks/use-toast";
@@ -112,7 +112,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
       id: uuidv4(),
       content,
       role: "user",
-      timestamp: new Date(),
+      timestamp: new Date().toISOString(),
     };
 
     // Update state with user message
@@ -148,7 +148,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
         id: uuidv4(),
         content: responseText,
         role: "assistant",
-        timestamp: new Date(),
+        timestamp: new Date().toISOString(),
       };
 
       // Update state with assistant message

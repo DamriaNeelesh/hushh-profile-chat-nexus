@@ -1,5 +1,4 @@
-
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { usePermissions } from "@/contexts/PermissionsContext";
@@ -8,15 +7,31 @@ import { Loader2, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 const ActiveGrantsList = () => {
-  const { fetchGrants, revokePermission, state } = usePermissions();
+  const permissions = usePermissions();
+  const { fetchGrants, revokePermission, state } = permissions || { 
+    fetchGrants: async () => {}, 
+    revokePermission: async () => {}, 
+    state: { grantsIssued: [], isLoading: false } 
+  };
+  
   const { grantsIssued, isLoading } = state;
   
   // Get active grants
   const activeGrants = grantsIssued.filter(grant => grant.isActive);
 
+  // Only fetch grants once when component mounts
   useEffect(() => {
-    fetchGrants();
-  }, [fetchGrants]);
+    // Create a loading indicator to avoid subsequent fetches
+    let isMounted = true;
+    
+    if (isMounted && fetchGrants) {
+      fetchGrants();
+    }
+    
+    return () => {
+      isMounted = false;
+    };
+  }, []); // Empty dependency array means this runs only once on mount
 
   if (isLoading && activeGrants.length === 0) {
     return (
@@ -68,7 +83,7 @@ const ActiveGrantsList = () => {
                   </div>
                   <div className="text-xs text-muted-foreground mt-1">
                     {grant.expiresAt
-                      ? `Expires ${formatDistanceToNow(new Date(grant.expiresAt), { addSuffix: true })}`
+                      ? `Expires ${formatExpiryDate(grant.expiresAt)}`
                       : "Never expires"}
                   </div>
                 </div>
@@ -76,7 +91,7 @@ const ActiveGrantsList = () => {
                   variant="ghost" 
                   size="sm" 
                   className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                  onClick={() => revokePermission(grant.id)}
+                  onClick={() => revokePermission && revokePermission(grant.id)}
                   disabled={isLoading}
                 >
                   <X className="h-4 w-4 mr-1" />
@@ -89,6 +104,19 @@ const ActiveGrantsList = () => {
       </CardContent>
     </Card>
   );
+};
+
+// Helper function to handle date formatting safely on the client side
+const formatExpiryDate = (isoDateString: string) => {
+  try {
+    // Only execute this on the client side
+    if (typeof window !== 'undefined') {
+      return formatDistanceToNow(new Date(isoDateString), { addSuffix: true });
+    }
+    return 'soon'; // Fallback for server-side rendering
+  } catch (error) {
+    return 'soon'; // Fallback if date is invalid
+  }
 };
 
 export default ActiveGrantsList;
