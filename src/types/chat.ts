@@ -1,4 +1,3 @@
-
 export type ChatContextType = 'myProfile' | 'delegated';
 
 export interface ChatContext {
@@ -11,7 +10,7 @@ export interface ChatMessage {
   id: string;
   content: string;
   role: 'user' | 'assistant';
-  timestamp: Date;
+  timestamp: string;
 }
 
 export interface ChatState {

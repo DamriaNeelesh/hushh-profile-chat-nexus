@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -33,10 +32,11 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     return <div className="h-screen flex items-center justify-center">Loading...</div>;
   }
   
-  if (!state.isAuthenticated) {
-    // Redirect to login if not authenticated
-    return <Navigate to="/login" />;
-  }
+  // Comment out authentication check for frontend UI development
+  // if (!state.isAuthenticated) {
+  //   // Redirect to login if not authenticated
+  //   return <Navigate to="/login" />;
+  // }
   
   return <>{children}</>;
 };
