@@ -1,6 +1,5 @@
-'use client';
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import { 
   MessageSquare, 
   Users, 
@@ -23,7 +22,7 @@ import {
 
 const Sidebar = () => {
   const { logout, state: { user } } = useAuth();
-  const navigate = useNavigate();
+  const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
 
   const sidebarItems = [
@@ -98,7 +97,7 @@ const Sidebar = () => {
                   <TooltipTrigger asChild>
                     <Button
                       variant="ghost"
-                      onClick={() => navigate(item.path)}
+                      onClick={() => router.push(item.path)}
                       className={cn(
                         "w-full justify-start",
                         collapsed ? "px-2" : "px-3"
