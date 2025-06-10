@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useNavigate } from "react-router-dom";
 import { 
   MessageSquare, 
   Users, 
@@ -22,7 +22,7 @@ import {
 
 const Sidebar = () => {
   const { logout, state: { user } } = useAuth();
-  const router = useRouter();
+  const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
 
   const sidebarItems = [
@@ -97,7 +97,7 @@ const Sidebar = () => {
                   <TooltipTrigger asChild>
                     <Button
                       variant="ghost"
-                      onClick={() => router.push(item.path)}
+                      onClick={() => navigate(item.path)}
                       className={cn(
                         "w-full justify-start",
                         collapsed ? "px-2" : "px-3"
