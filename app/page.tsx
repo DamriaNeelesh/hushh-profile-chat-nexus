@@ -1,14 +1,13 @@
 "use client"; // ChatInterface is a client component
 
-import React from "react";
-import ChatInterface from "../src/components/chat/ChatInterface";
-import { useIsMobile } from "../src/hooks/use-mobile";
-
+import ChatInterface from "@/components/chat/ChatInterface";
+import Sidebar from "@/components/layout/Sidebar";
 export default function HomePage() {
-  const isMobile = useIsMobile();
-  
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-row">
+      <div className="flex-shrink-0">
+        <Sidebar />
+      </div>
       <div className="flex-grow w-full">
         <ChatInterface />
       </div>

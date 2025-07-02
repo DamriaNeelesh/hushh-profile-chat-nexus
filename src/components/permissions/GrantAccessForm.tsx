@@ -30,7 +30,6 @@ import {
 } from "@/components/ui/select";
 import { usePermissions } from "@/contexts/PermissionsContext";
 import { Loader2 } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 const grantSchema = z.object({
   recipientEmail: z.string().email("Please enter a valid email address"),
@@ -58,7 +57,6 @@ const GrantAccessForm = () => {
   const permissions = usePermissions();
   const { grantPermission, state } = permissions || { grantPermission: async () => {}, state: { isLoading: false } };
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const isMobile = useIsMobile();
 
   const form = useForm<GrantFormValues>({
     resolver: zodResolver(grantSchema),
@@ -105,27 +103,27 @@ const GrantAccessForm = () => {
   return (
     <Card className="border-0 shadow-none">
       <CardHeader className="px-0">
-        <CardTitle className="text-lg md:text-xl">Grant Access to Your Profile</CardTitle>
-        <CardDescription className="text-sm md:text-base">
+        <CardTitle>Grant Access to Your Profile</CardTitle>
+        <CardDescription>
           Allow other Hushh users to chat with your Profile
         </CardDescription>
       </CardHeader>
       <CardContent className="px-0">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 md:space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
               name="recipientEmail"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm md:text-base">Recipient's Hushh Email</FormLabel>
+                  <FormLabel>Recipient's Hushh Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="colleague@example.com" {...field} className="text-sm md:text-base" />
+                    <Input placeholder="colleague@example.com" {...field} />
                   </FormControl>
-                  <FormDescription className="text-xs md:text-sm">
+                  <FormDescription>
                     The recipient must have a Hushh account.
                   </FormDescription>
-                  <FormMessage className="text-xs md:text-sm" />
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -136,8 +134,8 @@ const GrantAccessForm = () => {
               render={() => (
                 <FormItem>
                   <div className="mb-2">
-                    <FormLabel className="text-sm md:text-base">Scope</FormLabel>
-                    <FormDescription className="text-xs md:text-sm">
+                    <FormLabel>Scope</FormLabel>
+                    <FormDescription>
                       Select what information the recipient can access.
                     </FormDescription>
                   </div>
@@ -151,7 +149,7 @@ const GrantAccessForm = () => {
                           return (
                             <FormItem
                               key={option.id}
-                              className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-2 md:p-3"
+                              className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-3"
                             >
                               <FormControl>
                                 <Checkbox
@@ -167,7 +165,7 @@ const GrantAccessForm = () => {
                                   }}
                                 />
                               </FormControl>
-                              <FormLabel className="font-normal text-xs md:text-sm">
+                              <FormLabel className="font-normal">
                                 {option.label}
                               </FormLabel>
                             </FormItem>
@@ -176,7 +174,7 @@ const GrantAccessForm = () => {
                       />
                     ))}
                   </div>
-                  <FormMessage className="text-xs md:text-sm" />
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -186,37 +184,33 @@ const GrantAccessForm = () => {
               name="duration"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm md:text-base">Duration</FormLabel>
+                  <FormLabel>Duration</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
-                      <SelectTrigger className="text-sm md:text-base">
+                      <SelectTrigger>
                         <SelectValue placeholder="Select a duration" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       {durationOptions.map((option) => (
-                        <SelectItem key={option.value} value={option.value} className="text-sm md:text-base">
+                        <SelectItem key={option.value} value={option.value}>
                           {option.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
-                  <FormDescription className="text-xs md:text-sm">
+                  <FormDescription>
                     How long the access should last.
                   </FormDescription>
-                  <FormMessage className="text-xs md:text-sm" />
+                  <FormMessage />
                 </FormItem>
               )}
             />
             
-            <Button 
-              type="submit" 
-              disabled={isSubmitting || state.isLoading}
-              className="w-full sm:w-auto text-sm md:text-base"
-            >
+            <Button type="submit" disabled={isSubmitting || state.isLoading}>
               {isSubmitting ? (
                 <>
-                  <Loader2 className="mr-2 h-3 w-3 md:h-4 md:w-4 animate-spin" /> Granting Access...
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Granting Access...
                 </>
               ) : (
                 "Grant Chat Access"

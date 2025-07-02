@@ -35,43 +35,43 @@ const ActiveGrantsList = () => {
 
   if (isLoading && activeGrants.length === 0) {
     return (
-      <Card className="border-0 shadow-none mt-4 md:mt-8">
+      <Card className="border-0 shadow-none mt-8">
         <CardHeader className="px-0">
-          <CardTitle className="text-lg md:text-xl">Active Permissions</CardTitle>
-          <CardDescription className="text-sm md:text-base">
+          <CardTitle>Active Permissions</CardTitle>
+          <CardDescription>
             Users who can chat with your Profile
           </CardDescription>
         </CardHeader>
-        <CardContent className="px-0 flex justify-center py-6 md:py-8">
-          <Loader2 className="h-6 w-6 md:h-8 md:w-8 animate-spin text-muted-foreground" />
+        <CardContent className="px-0 flex justify-center py-8">
+          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
         </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card className="border-0 shadow-none mt-4 md:mt-8">
+    <Card className="border-0 shadow-none mt-8">
       <CardHeader className="px-0">
-        <CardTitle className="text-lg md:text-xl">Active Permissions</CardTitle>
-        <CardDescription className="text-sm md:text-base">
+        <CardTitle>Active Permissions</CardTitle>
+        <CardDescription>
           Users who can chat with your Profile
         </CardDescription>
       </CardHeader>
       <CardContent className="px-0">
         {activeGrants.length === 0 ? (
-          <div className="text-center py-6 md:py-8 text-muted-foreground border rounded-lg text-sm md:text-base">
+          <div className="text-center py-8 text-muted-foreground border rounded-lg">
             <p>You haven't granted access to anyone yet.</p>
           </div>
         ) : (
-          <div className="space-y-3 md:space-y-4">
+          <div className="space-y-4">
             {activeGrants.map((grant) => (
               <div 
                 key={grant.id} 
-                className="flex flex-col sm:flex-row sm:items-center justify-between p-3 md:p-4 border rounded-lg"
+                className="flex items-center justify-between p-4 border rounded-lg"
               >
-                <div className="space-y-1 mb-3 sm:mb-0">
-                  <div className="font-medium text-sm md:text-base">{grant.recipientName || grant.recipientEmail}</div>
-                  <div className="text-xs md:text-sm text-muted-foreground">
+                <div className="space-y-1">
+                  <div className="font-medium">{grant.recipientName || grant.recipientEmail}</div>
+                  <div className="text-sm text-muted-foreground">
                     {grant.recipientEmail}
                   </div>
                   <div className="flex flex-wrap gap-1 mt-1">
@@ -90,7 +90,7 @@ const ActiveGrantsList = () => {
                 <Button 
                   variant="ghost" 
                   size="sm" 
-                  className="text-destructive hover:text-destructive hover:bg-destructive/10 w-full sm:w-auto"
+                  className="text-destructive hover:text-destructive hover:bg-destructive/10"
                   onClick={() => revokePermission && revokePermission(grant.id)}
                   disabled={isLoading}
                 >

@@ -1,5 +1,6 @@
 'use client'
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { usePermissions } from "@/contexts/PermissionsContext";
@@ -12,6 +13,7 @@ const ReceivedGrantsList = () => {
   const permissions = usePermissions();
   const { fetchGrants, state } = permissions || { fetchGrants: async () => {}, state: { grantsReceived: [], isLoading: false } };
   const { setContext } = useChat();
+  const router = useRouter();
   const { grantsReceived, isLoading } = state;
   
   // Get active grants
@@ -29,53 +31,51 @@ const ReceivedGrantsList = () => {
       targetUserId: grantorUserId,
       grantorName: grantorName || "User"
     });
-    
-    // Use window.location instead of Next.js router to avoid the error
-    window.location.href = "/";
+    router.push("/");
   };
 
   if (isLoading && activeGrants.length === 0) {
     return (
-      <div className="h-full flex items-center justify-center p-4">
+      <div className="h-full flex items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
       </div>
     );
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-3 sm:p-4 md:p-6">
-      <div className="mb-4 md:mb-6">
-        <h1 className="text-xl md:text-2xl font-bold mb-1 md:mb-2">Profiles Shared With You</h1>
-        <p className="text-sm md:text-base text-muted-foreground">
+    <div className="max-w-4xl mx-auto p-6">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold mb-2">Profiles Shared With You</h1>
+        <p className="text-muted-foreground">
           These users have granted you access to chat with their Profiles
         </p>
       </div>
 
       {activeGrants.length === 0 ? (
         <Card>
-          <CardContent className="text-center py-8 md:py-12 text-muted-foreground">
-            <p className="text-sm md:text-base">No profiles have been shared with you yet.</p>
+          <CardContent className="text-center py-12 text-muted-foreground">
+            <p>No profiles have been shared with you yet.</p>
           </CardContent>
         </Card>
       ) : (
-        <div className="grid gap-3 md:gap-4">
+        <div className="grid gap-4">
           {activeGrants.map((grant) => (
             <Card key={grant.id} className="overflow-hidden">
               <div className="border-l-4 border-hushh-500 h-full">
-                <CardHeader className="p-3 md:p-6">
-                  <CardTitle className="text-base md:text-lg">{grant.grantorName || "User"} has shared their Profile with you</CardTitle>
-                  <CardDescription className="text-xs md:text-sm">
+                <CardHeader>
+                  <CardTitle>{grant.grantorName || "User"} has shared their Profile with you</CardTitle>
+                  <CardDescription>
                     {grant.expiresAt
-                      ? `Expires ${formatExpiryDate(grant.expiresAt)}`
+                      ? `Expires ${formatDistanceToNow(new Date(grant.expiresAt), { addSuffix: true })}`
                       : "Never expires"}
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-3 md:space-y-4 p-3 md:p-6 pt-0 md:pt-0">
+                <CardContent className="space-y-4">
                   <div>
-                    <h4 className="text-xs md:text-sm font-medium mb-2">Access scope:</h4>
-                    <div className="flex flex-wrap gap-1 md:gap-2">
+                    <h4 className="text-sm font-medium mb-2">Access scope:</h4>
+                    <div className="flex flex-wrap gap-2">
                       {grant.scope.map((scope, index) => (
-                        <Badge key={index} variant="outline" className="text-xs md:text-sm bg-hushh-50 text-hushh-700 border-hushh-200">
+                        <Badge key={index} variant="outline" className="bg-hushh-50 text-hushh-700 border-hushh-200">
                           {scope}
                         </Badge>
                       ))}
@@ -83,9 +83,9 @@ const ReceivedGrantsList = () => {
                   </div>
                   <Button 
                     onClick={() => handleStartChat(grant.grantorUserId, grant.grantorName)}
-                    className="w-full sm:w-auto text-xs md:text-sm"
+                    className="w-full sm:w-auto"
                   >
-                    <MessageSquare className="mr-2 h-3 w-3 md:h-4 md:w-4" />
+                    <MessageSquare className="mr-2 h-4 w-4" />
                     Chat with {grant.grantorName || "User"}'s Profile
                   </Button>
                 </CardContent>
@@ -96,19 +96,6 @@ const ReceivedGrantsList = () => {
       )}
     </div>
   );
-};
-
-// Helper function to handle date formatting safely on the client side
-const formatExpiryDate = (isoDateString: string) => {
-  try {
-    // Only execute this on the client side
-    if (typeof window !== 'undefined') {
-      return formatDistanceToNow(new Date(isoDateString), { addSuffix: true });
-    }
-    return 'soon'; // Fallback for server-side rendering
-  } catch (error) {
-    return 'soon'; // Fallback if date is invalid
-  }
 };
 
 export default ReceivedGrantsList;

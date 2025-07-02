@@ -1,10 +1,9 @@
 "use client"; // Sidebar and auth checks make this a client component for now
 
-import Sidebar from "../../src/components/layout/Sidebar";
-import { useAuth } from "../../src/contexts/AuthContext";
+import Sidebar from "@/components/layout/Sidebar";
+import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
-import { useIsMobile } from "../../src/hooks/use-mobile";
 
 export default function AuthenticatedLayout({
   children,
@@ -13,7 +12,6 @@ export default function AuthenticatedLayout({
 }) {
   const { state } = useAuth();
   const router = useRouter();
-  const isMobile = useIsMobile();
 
   // Comment out authentication check for frontend UI development
   // useEffect(() => {
@@ -29,9 +27,9 @@ export default function AuthenticatedLayout({
   // }
 
   return (
-    <div className="flex min-h-screen flex-col md:flex-row">
+    <div className="flex min-h-screen">
       <Sidebar />
-      <main className="flex-1 overflow-y-auto bg-background pt-16 md:pt-0">
+      <main className="flex-1 overflow-y-auto bg-background">
         {children}
       </main>
     </div>

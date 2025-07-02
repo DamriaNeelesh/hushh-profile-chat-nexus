@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -5,14 +6,12 @@ import { useChat } from "@/contexts/ChatContext";
 import { Loader2, SendIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ChatContextIndicator from "./ChatContextIndicator";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 const ChatInterface = () => {
   const { state, sendMessage } = useChat();
   const [query, setQuery] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const isMobile = useIsMobile();
 
   const { currentContext } = state;
   const contextId = currentContext.type === "myProfile" 
@@ -45,12 +44,12 @@ const ChatInterface = () => {
     <div className="flex flex-col h-full">
       <ChatContextIndicator />
       
-      <div className="flex-1 overflow-y-auto p-2 md:p-4 space-y-3 md:space-y-4">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.length === 0 ? (
           <div className="h-full flex items-center justify-center text-muted-foreground">
-            <div className="text-center max-w-md p-4">
-              <h3 className="font-medium text-base md:text-lg mb-2">Start a conversation</h3>
-              <p className="text-sm md:text-base">
+            <div className="text-center max-w-md">
+              <h3 className="font-medium text-lg mb-2">Start a conversation</h3>
+              <p>
                 {currentContext.type === "myProfile" 
                   ? "Ask your Assistant about your information" 
                   : `Ask ${currentContext.grantorName}'s Assistant a question`}
@@ -67,8 +66,7 @@ const ChatInterface = () => {
                   ? "chat-bubble-user" 
                   : currentContext.type === "delegated" 
                     ? "chat-bubble-delegated" 
-                    : "chat-bubble-assistant",
-                "text-sm md:text-base"
+                    : "chat-bubble-assistant"
               )}
             >
               {message.content}
@@ -77,7 +75,7 @@ const ChatInterface = () => {
         )}
         
         {isLoading && (
-          <div className="chat-bubble chat-bubble-assistant flex items-center space-x-2 text-sm md:text-base">
+          <div className="chat-bubble chat-bubble-assistant flex items-center space-x-2">
             <Loader2 className="h-4 w-4 animate-spin" />
             <span>Thinking...</span>
           </div>
@@ -86,7 +84,7 @@ const ChatInterface = () => {
         <div ref={messagesEndRef} />
       </div>
       
-      <form onSubmit={handleSendMessage} className="p-2 md:p-4 border-t">
+      <form onSubmit={handleSendMessage} className="p-4 border-t">
         <div className="flex space-x-2">
           <Input
             ref={inputRef}
@@ -94,17 +92,11 @@ const ChatInterface = () => {
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Type your message..."
             disabled={isLoading}
-            className="flex-1 text-sm md:text-base"
+            className="flex-1"
           />
-          <Button 
-            type="submit" 
-            disabled={!query.trim() || isLoading}
-            className={cn(
-              isMobile ? "px-3" : ""
-            )}
-          >
-            <SendIcon className="h-4 w-4 md:mr-2" />
-            {!isMobile && <span>Send</span>}
+          <Button type="submit" disabled={!query.trim() || isLoading}>
+            <SendIcon className="h-4 w-4 mr-2" />
+            Send
           </Button>
         </div>
       </form>
